@@ -3,7 +3,7 @@ var router = express.Router();
 var listModel = require('../models/listModel.js');
 
 router.post('/addList',function (req , res){
-    res.set('Access-Control-Allow-Origin', 'http://localhost:3000/api/addList');
+    res.set('Access-Control-Allow-Origin', '*');
     var newlist = new listModel({
         title:req.body.title,
         content:req.body.content,

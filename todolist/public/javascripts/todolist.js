@@ -1,16 +1,20 @@
 var todolist=[];
 var id=1;
+
+
 function addList(){
     var _title=$("#title").val();
     var _message=$("#message").val();
-   // console.log("title:"+_title);
+   // 取得標題+內容
 
-    if(_title == "" || _message == ""){
+    if(_title == "" || _message == ""){  //NotNullCheck
         alert("請輸入標題或內容！");
     }
     else{
-        $.post("http://localhost:3000/api/addList",{'title':_title,'content':_message},function(res){
+        $.post("http://localhost:3000/api/addList",{'title':_title,'content':_message},function(res){  //Post呼叫，傳入標題+內容
         newList(res.data);
+        
+        //清空欄位
         $("#title").val("");
         $("#message").val("");
         });
@@ -29,11 +33,13 @@ function addList(){
 }
 
 function newList(data){
-    var status = (data.status)?"checked":"";
+    //var status = (data.status)?"checked":"";
     var titleClass = (data.status)?"title2":"title";
     var messageClass = (data.status)?"message2":"message";
     var editClass = (data.status)?"none":"inline";
+    //CSS調整樣式
 
+//data.id未設定，亂碼？
     var content = `
     <div class="content" id="${data._id}">
         <div class="${titleClass}">
@@ -52,13 +58,13 @@ function newList(data){
         <div class="${messageClass}">
             <text id ="message${data._id}">${data.content}</text>
         </div>
-    </div>`
-    $("body").append(content);
+    </div>`//新增的todolist項目
+    $("body").append(content);//加入當前網頁
 }
 
 function editList(id){
-    $('#edit'+id).css("display","none");
-    $('#update'+id).css("display","inline");  //Button修改
+    $('#edit'+id).css("display","none");//修改鈕消失
+    $('#update'+id).css("display","inline");  //更新鈕出現
 
     var input = document.createElement("input");
     input.type = "text";
