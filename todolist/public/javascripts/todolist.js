@@ -1,6 +1,6 @@
 var todolist=[];
 var id=1;
-
+//不會用到
 
 function addList(){
     var _title=$("#title").val();
@@ -12,7 +12,7 @@ function addList(){
     }
     else{
         $.post("http://localhost:3000/api/addList",{'title':_title,'content':_message},function(res){  //Post呼叫，傳入標題+內容
-        newList(res.data);
+        newList(res.data);//顯示
         
         //清空欄位
         $("#title").val("");
@@ -66,20 +66,20 @@ function editList(id){
     $('#edit'+id).css("display","none");//修改鈕消失
     $('#update'+id).css("display","inline");  //更新鈕出現
 
-    var input = document.createElement("input");
-    input.type = "text";
-    input.id = "edit_title"+id;
-    input.value = $("#title"+id).text();
-    input.size = Math.max(20/4*3,4);  //設定Input
+    var input = document.createElement("input");//建立Input標籤
+    input.type = "text";//Input類型設定為TEXT
+    input.id = "edit_title"+id;  //編輯用ID
+    input.value = $("#title"+id).text();  //取得值
+    input.size = Math.max(20/4*3,4);  //設定Input欄寬度
 
-    $("#title"+id).css("display","none");
-    $("#title"+id).parent().append(input);  //加入 Input text
+    $("#title"+id).css("display","none"); //隱藏
+    $("#title"+id).parent().append(input);  //加入修改後的項目
 
     var message_input = document.createElement("input");
     message_input.type = "text";
     message_input.id = "edit_message"+id;
     message_input.value = $('#message'+id).text();
-    message_input.size = Math.max(50/4*3,4);  //設定Input
+    message_input.size = Math.max(50/4*3,4);  
 
     $('#message'+id).css("display","none"); 
     $('#message'+id).parent().append(message_input);  //加入Input text
@@ -87,7 +87,7 @@ function editList(id){
 
 function updateList(id){
     var title = $("#edit_title"+id).val();
-    var message = $("#edit_message"+id).val(); //取值
+    var message = $("#edit_message"+id).val(); //取修改後的值
 
     $.post('http://localhost:3000/api/updateList',{'id':id,'title':title,'content':message},function(res){
         if(res.status==0){
@@ -95,13 +95,13 @@ function updateList(id){
             $('#message'+id).text(message); //放入值
         
             $('#edit'+id).css("display","inline");
-            $('#update'+id).css("display","none");  //Button的還原
+            $('#update'+id).css("display","none");  //Button還原
         
             $('#title'+id).css("display","inline");  //顯示文字模式的標題與內容
             $('#message'+id).css("display","inline");
         
             $('#edit_title'+ id).remove();
-            $('#edit_message'+id).remove(); //editList的Input text
+            $('#edit_message'+id).remove(); //移除修改用Input
         }
     });
  /*   $('#title'+id).text(title);
@@ -122,7 +122,7 @@ function removeList(id){
     $.post('http://localhost:3000/api/removeList',{'id':id},
     function(res){
         if (res.status==0){
-            $("#"+id).remove();
+            $("#"+id).remove();  //刪除
         }
     });
  /*   var index= todolist.findIndex(element => element._id == id);
@@ -136,13 +136,13 @@ function changeStatus(id,btnstatus){
     $.post('http://localhost:3000/api/changeStatus',{'id':id,'status':btnstatus.checked},function(res){
         if(res.status==0){
             if(btnstatus.checked){
-                title.className = "title2";
+                title.className = "title2";//刪除線
                 message.className = "message2";
-                $('#edit'+id).css('display','none');
+                $('#edit'+id).css('display','none');//隱藏按鈕
                 $('#update'+id).css('display','none');
                 
                 if(document.getElementById("edit_title"+id)){
-                    $('#title'+id).css('display','inline');
+                    $('#title'+id).css('display','inline'); 
                     $('#message'+id).css('display','inline');
                     $('#edit_title'+id).remove();
                     $('#edit_message'+id).remove();
@@ -175,7 +175,7 @@ function changeStatus(id,btnstatus){
         $('#edit'+id).css('display',"inline");
     }*/
 }
-getList();
+getList();  //載入時運作getList()
 function getList(){
     $.get('http://localhost:3000/api/getList',function(data,status){
     for(var i = 0;i< data.length;i++){
